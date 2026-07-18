@@ -1,20 +1,20 @@
 #!/bin/sh
 set -eu
 
-# .cursorディレクトリがあるかチェックして、無ければ作る
-CURSOR_DIR="$(pwd)/.cursor"
+# .agentディレクトリがあるかチェックして、無ければ作る
+CURSOR_DIR="$(pwd)/.agent"
 
 if [ -d "$CURSOR_DIR" ]; then
-  echo ".cursor ディレクトリは既に存在します: $CURSOR_DIR"
+  echo ".agent ディレクトリは既に存在します: $CURSOR_DIR"
 fi
 
 mkdir -p "$CURSOR_DIR"
-echo ".cursor ディレクトリを作成しました: $CURSOR_DIR"
+echo ".agent ディレクトリを作成しました: $CURSOR_DIR"
 
 # ダウンロード用ディレクトリ
 RULES_DIR="$CURSOR_DIR/rules"
 mkdir -p "$RULES_DIR"
-echo ".cursor/rules ディレクトリを作成しました: $RULES_DIR"
+echo ".agent/rules ディレクトリを作成しました: $RULES_DIR"
 
 # リポジトリ設定（common_rule_url などで使用するため先に定義）
 owner_repo="itsumura-h/cursor-template"
@@ -49,12 +49,12 @@ for file in $FILES_TO_DOWNLOAD; do
   TARGET_FILE="$RULES_DIR/$file"
   
   if [ -f "$TARGET_FILE" ]; then
-    echo ".cursor/rules/$file は既に存在します: $TARGET_FILE"
+    echo ".agent/rules/$file は既に存在します: $TARGET_FILE"
   else
-    echo ".cursor/rules/$file が見つかりません。GitHub からダウンロードを試みます..."
+    echo ".agent/rules/$file が見つかりません。GitHub からダウンロードを試みます..."
     
     success=false
-    raw_url="https://raw.githubusercontent.com/$owner_repo/main/.cursor/$file"
+    raw_url="https://raw.githubusercontent.com/$owner_repo/main/.agent/$file"
     echo "Downloading $raw_url ..."
     
     if command -v curl >/dev/null 2>&1; then
@@ -77,11 +77,11 @@ for file in $FILES_TO_DOWNLOAD; do
   fi
 done
 
-# .cursor/rules/branchディレクトリがなければ作る
+# .agent/rules/branchディレクトリがなければ作る
 BRANCH_DIR="$RULES_DIR/branch"
 if [ -d "$BRANCH_DIR" ]; then
-  echo ".cursor/rules/branch ディレクトリは既に存在します: $BRANCH_DIR"
+  echo ".agent/rules/branch ディレクトリは既に存在します: $BRANCH_DIR"
 else
   mkdir -p "$BRANCH_DIR"
-  echo ".cursor/rules/branch ディレクトリを作成しました: $BRANCH_DIR"
+  echo ".agent/rules/branch ディレクトリを作成しました: $BRANCH_DIR"
 fi
