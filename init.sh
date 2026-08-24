@@ -17,7 +17,7 @@ mkdir -p "$RULES_DIR"
 echo ".agent/rules ディレクトリを作成しました: $RULES_DIR"
 
 # リポジトリ設定（common_rule_url などで使用するため先に定義）
-owner_repo="itsumura-h/cursor-template"
+owner_repo="dumblepy/cursor-template"
 
 # AGENTS.md をプロジェクトルートに常にダウンロードして上書き
 AGENTS_TARGET="$(pwd)/AGENTS.md"
