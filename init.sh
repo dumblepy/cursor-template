@@ -19,6 +19,28 @@ echo ".agent/rules ディレクトリを作成しました: $RULES_DIR"
 # リポジトリ設定（common_rule_url などで使用するため先に定義）
 owner_repo="dumblepy/cursor-template"
 
+# progress.md を .agent 配下に常にダウンロードして上書き
+PROGRESS_TARGET="$CURSOR_DIR/progress.md"
+PROGRESS_URL="https://raw.githubusercontent.com/$owner_repo/main/.agent/progress.md"
+echo ".agent/progress.md をダウンロードして上書きします: $PROGRESS_TARGET"
+success=false
+if command -v curl >/dev/null 2>&1; then
+  if curl -fsSL -o "$PROGRESS_TARGET" "$PROGRESS_URL"; then
+    success=true
+  fi
+elif command -v wget >/dev/null 2>&1; then
+  if wget -qO "$PROGRESS_TARGET" "$PROGRESS_URL"; then
+    success=true
+  fi
+else
+  echo "curl または wget が必要です。インストールしてください。" >&2
+fi
+if [ "$success" = true ]; then
+  echo "ダウンロードに成功しました: $PROGRESS_TARGET"
+else
+  echo "GitHub からのダウンロードに失敗しました。手動で $PROGRESS_TARGET を配置してください。" >&2
+fi
+
 # AGENTS.md をプロジェクトルートに常にダウンロードして上書き
 AGENTS_TARGET="$(pwd)/AGENTS.md"
 AGENTS_URL="https://raw.githubusercontent.com/$owner_repo/main/AGENTS.md"
